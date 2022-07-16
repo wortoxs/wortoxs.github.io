@@ -1,0 +1,743 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="wtox">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言之前一直用的是 Debian，稳确实是稳，但少了很多软件，并且有些软件相当古老了，如果要自己装桌面还要美化的话还是相当折腾人的（如果只是个人用的话（甚至放在虚拟机里）感觉没必要这么稳，这次重装就直接上 Arch 啦！（真香之前也用过 Manjaro，确实比较方便，但放在虚拟机里面还是经常掉到坑里去（比如 VirtualBox Guest Additions，玄学玩意（x 安装前的准备 下载 A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arch Linux 在 Virtual Box 中的安装">
+<meta property="og:url" content="http://wortoxs.github.io/2022/02/13/arch-install/index.html">
+<meta property="og:site_name" content="Hello World!">
+<meta property="og:description" content="前言之前一直用的是 Debian，稳确实是稳，但少了很多软件，并且有些软件相当古老了，如果要自己装桌面还要美化的话还是相当折腾人的（如果只是个人用的话（甚至放在虚拟机里）感觉没必要这么稳，这次重装就直接上 Arch 啦！（真香之前也用过 Manjaro，确实比较方便，但放在虚拟机里面还是经常掉到坑里去（比如 VirtualBox Guest Additions，玄学玩意（x 安装前的准备 下载 A">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-13T13:09:18.000Z">
+<meta property="article:modified_time" content="2022-07-16T01:17:59.566Z">
+<meta property="article:author" content="wtox">
+<meta property="article:tag" content="Arch Linux">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Arch Linux 在 Virtual Box 中的安装 - Hello World!</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wortoxs.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello World!</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Arch Linux 在 Virtual Box 中的安装"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-13 13:09" pubdate>
+          2022年2月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Arch Linux 在 Virtual Box 中的安装</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前一直用的是 Debian，稳确实是稳，但少了很多软件，并且有些软件相当古老了，如果要自己装桌面还要美化的话还是相当折腾人的（<br>如果只是个人用的话（甚至放在虚拟机里）感觉没必要这么稳，这次重装就直接上 Arch 啦！（真香<br>之前也用过 Manjaro，确实比较方便，但放在虚拟机里面还是经常掉到坑里去（比如 VirtualBox Guest Additions，玄学玩意（x</p>
+<h1 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h1><ul>
+<li><p>下载 Arch Linux 镜像<br><code>https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/</code></p>
+</li>
+<li><p>启用 EFI 支持<br>在 Virtual Box 中，在 <code>设置 &gt;&gt; 系统</code> 中选择 <code>启用 EFI</code></p>
+</li>
+</ul>
+<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h2 id="检查启动模式"><a href="#检查启动模式" class="headerlink" title="检查启动模式"></a>检查启动模式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> /sys/firmware/efi/efivars<br></code></pre></td></tr></table></figure>
+<p>如果上述命令有输出的话，则系统采用 UEFI 模式启动</p>
+<h2 id="联网"><a href="#联网" class="headerlink" title="联网"></a>联网</h2><p>如果是在虚拟机中安装的话，应该已经自动联网了。使用 ping 命令来验证网络的连通性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ping archlinux.org<br></code></pre></td></tr></table></figure>
+
+<h2 id="校对系统时间"><a href="#校对系统时间" class="headerlink" title="校对系统时间"></a>校对系统时间</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">timedatectl set-ntp <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h2><p>使用 fdisk 或 lsblk 来查看磁盘设备</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk -l <br>lsblk<br></code></pre></td></tr></table></figure>
+<p>通常情况下，在 Virtual Box 中仅有一块磁盘，其命名为 &#x2F;dev&#x2F;sda</p>
+<p>这里使用 cgdisk 来进行分区。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>大小</th>
+<th>描述</th>
+<th>Hex code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;dev&#x2F;sda1</td>
+<td>300MiB</td>
+<td>EFI 分区</td>
+<td>ef00</td>
+</tr>
+<tr>
+<td>&#x2F;dev&#x2F;sda2</td>
+<td>2GiB</td>
+<td>Swap 分区</td>
+<td>8200</td>
+</tr>
+<tr>
+<td>&#x2F;dev&#x2F;sda3</td>
+<td>-</td>
+<td>文件系统</td>
+<td>8300</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Hex code 可以在 cgdisk 中使用 L 进行搜索；</li>
+<li>在分区时，cgdisk 会自动在磁盘中留下大约 1MiB 的空间，其原因为：<blockquote>
+<p>It may be intentional. A gap at the end of the disk could be used for a BIOS Boot Partition (which users must sometimes add after partitioning because they didn’t realize they needed it) or to adjust the size of the partition table. Unfortunately for this hypothesis, libparted doesn’t enable use of this space in either of these ways, although gdisk does.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="格式化分区"><a href="#格式化分区" class="headerlink" title="格式化分区"></a>格式化分区</h2><ul>
+<li><p>EFI 分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkfs.fat -F 32 /dev/sda1<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Swap 分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkswap /dev/sda2<br></code></pre></td></tr></table></figure>
+<p>启用 Swap：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">swapon /dev/sda2<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>文件系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkfs.ext4 /dev/sda3<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="挂载文件系统"><a href="#挂载文件系统" class="headerlink" title="挂载文件系统"></a>挂载文件系统</h2><p>将根目录挂载到 <code>/mnt</code>，然后将 EFI 分区挂载到 <code>/mnt/boot</code>，启用 Swap 分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">mount /dev/sda3 /mnt<br>mount /dev/sda1 /mnt/boot<br>swapon /dev/sda2<br></code></pre></td></tr></table></figure>
+
+<h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><h2 id="更换镜像源"><a href="#更换镜像源" class="headerlink" title="更换镜像源"></a>更换镜像源</h2><p>修改 <code>/etc/pacman.d/mirrorlist</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/<span class="hljs-variable">$repo</span>/os/<span class="hljs-variable">$arch</span> <span class="hljs-comment"># 清华源</span><br>Server = http://mirrors.aliyun.com/archlinux/<span class="hljs-variable">$repo</span>/os/<span class="hljs-variable">$arch</span> <span class="hljs-comment"># 阿里云</span><br></code></pre></td></tr></table></figure>
+<p>或者获取镜像列表后使用 reflector 进行镜像排序</p>
+<ol>
+<li>获取镜像列表<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget -O /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/all/<br><span class="hljs-comment">#或是</span><br>wget -O /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/?country=CN<br></code></pre></td></tr></table></figure></li>
+<li>使用 reflector 排序<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">reflector --verbose --latest 15 --<span class="hljs-built_in">sort</span> rate --save /etc/pacman.d/mirrorlist<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>更新一下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -Syy<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装必备的包"><a href="#安装必备的包" class="headerlink" title="安装必备的包"></a>安装必备的包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacstrap /mnt base linux linux-firmware vim<br></code></pre></td></tr></table></figure>
+
+<h1 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h1><h2 id="Fstab"><a href="#Fstab" class="headerlink" title="Fstab"></a>Fstab</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab<br></code></pre></td></tr></table></figure>
+
+<h2 id="Chroot"><a href="#Chroot" class="headerlink" title="Chroot"></a>Chroot</h2><p>进入新系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">arch-chroot /mnt<br></code></pre></td></tr></table></figure>
+
+<h2 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br></code></pre></td></tr></table></figure>
+<p>使用 hwclock 生成 <code>/etc/adjtime</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hwclock --systohc<br></code></pre></td></tr></table></figure>
+
+<h2 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h2><p>编辑 <code>/etc/locale.gen</code>，将 <code>en_US.UTF-8 UTF-8</code> 和其他需要的语言（例如 <code>zh_CN.UTF-8 UTF-8</code> ）取消注释。然后使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">locale-gen<br></code></pre></td></tr></table></figure>
+<p>创建 <code>/etc/locale.conf</code>，设置变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># /etc/locale.conf</span><br>LANG=en_US.UTF-8<br></code></pre></td></tr></table></figure>
+
+<h2 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-built_in">arch</span> &gt; /etc/hostname<br><span class="hljs-built_in">echo</span> 127.0.0.1 &gt;&gt; /etc/hosts<br><span class="hljs-built_in">echo</span> ::1 &gt;&gt; /etc/hosts<br></code></pre></td></tr></table></figure>
+<p>安装其他网络工具包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S dhcpcd<br></code></pre></td></tr></table></figure>
+
+<h2 id="配置-bootloader"><a href="#配置-bootloader" class="headerlink" title="配置 bootloader"></a>配置 bootloader</h2><p>这里使用 systemd-boot 启动系统</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">bootctl install<br>vim /boot/loader/entries/arch.conf<br></code></pre></td></tr></table></figure>
+
+<p><code>/boot/loader/entries/arch.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">title Arch Linux<br>linux /vmlinuz-linux<br>initrd /intel-ucode.img<br>initrd /initramfs-linux.img<br></code></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>如果启动失败，则需要注意路径是否在 EFI 分区中存在。例如，启动失败时，可检查 <code>/vmlinuz-linux</code> 是否在 <code>/dev/sda1</code>中存在</li>
+<li><code>/intel-ucode.img</code> 需要安装 <code>intel-ucode</code>包（即 <code>pacman -S intel-ucode</code>），若未安装该包，则应删去该行。理论上虚拟机不需要该包。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;options root=PARTUUID=<span class="hljs-subst">$(blkid -s PARTUUID -o value /dev/sda3)</span> rw&quot;</span> &gt;&gt; /boot/loader/entries/arch.conf<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl <span class="hljs-built_in">enable</span> fstrim.timer<br></code></pre></td></tr></table></figure>
+
+<h1 id="进入系统"><a href="#进入系统" class="headerlink" title="进入系统"></a>进入系统</h1><h2 id="配置系统-1"><a href="#配置系统-1" class="headerlink" title="配置系统"></a>配置系统</h2><p>创建新用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">useradd -m new_user<br></code></pre></td></tr></table></figure>
+<p>安装中文字体、VirtualBox Guest Additions 和其他软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S noto-fonts-cjk virtualbox-guest-utils sudo git<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>桌面采用 awesome wm。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S xorg-server xorg-xinit sddm awesome feh picom alacritty zsh<br></code></pre></td></tr></table></figure>
+
+<h3 id="awesome-主题配置"><a href="#awesome-主题配置" class="headerlink" title="awesome 主题配置"></a>awesome 主题配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/denstiny/awesome-config<br><span class="hljs-built_in">cd</span> ./awesome-config<br>./install.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置终端"><a href="#配置终端" class="headerlink" title="配置终端"></a>配置终端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh<br><span class="hljs-built_in">cp</span> ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc<br><br>curl --socks5 proxy_server https://raw.githubusercontent.com/daltonmenezes/aura-theme/main/packages/alacritty/aura-theme.yml &gt; ~/.config/alacritty/alacritty.yml<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S fcitx5-im fcitx5-rime<br></code></pre></td></tr></table></figure>
+<p>编辑 <code>~/.pam_environment</code></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">GTK_IM_MODULE <span class="hljs-attribute">DEFAULT</span>=fcitx<br>QT_IM_MODULE  <span class="hljs-attribute">DEFAULT</span>=fcitx<br>XMODIFIERS    <span class="hljs-attribute">DEFAULT</span>=\@im=fcitx<br>INPUT_METHOD  <span class="hljs-attribute">DEFAULT</span>=fcitx<br>SDL_IM_MODULE <span class="hljs-attribute">DEFAULT</span>=fcitx<br>GLFW_IM_MODULE <span class="hljs-attribute">DEFAULT</span>=ibus<br></code></pre></td></tr></table></figure>
+<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S alsa-utils pulseaudio<br></code></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Installation_guide">Installation guide</a><br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Systemd-boot">systemd-boot</a><br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/VirtualBox/Install_Arch_Linux_as_a_guest#Install_the_Guest_Additions">VirtualBox&#x2F;Install Arch Linux as a guest</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lepeCoder/p/archlinux_mirrors.html">为archlinux选择国内镜像</a><br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">Fcitx5 (简体中文)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Arch-Linux/">#Arch Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Arch Linux 在 Virtual Box 中的安装</div>
+      <div>http://wortoxs.github.io/2022/02/13/arch-install/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>wtox</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月13日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/16/react-1/" title="从零开始的 React 学习 - Part 1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从零开始的 React 学习 - Part 1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/11/hello-world/" title="使用 Github Action 自动部署 Hexo">
+                        <span class="hidden-mobile">使用 Github Action 自动部署 Hexo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,608 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="wtox">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言VS Code 的 vim 插件仍然相当难用，打算改用 nvim 试试水（然而还是相当折磨:( Rust 自动补全网上能找到的配置大多数都没有配置 auto import，导致网上随便找个配置用的时候自动补全只能补全已经导入的模块，相当的离谱（最后在 nvim-comp 中找到了配置方法（然而写这篇文章的时候已经不推荐用这个了在 lspconfig 中加入以下代码： 1234567891011">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nvim 配置">
+<meta property="og:url" content="http://wortoxs.github.io/2022/06/03/nvim-%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hello World!">
+<meta property="og:description" content="前言VS Code 的 vim 插件仍然相当难用，打算改用 nvim 试试水（然而还是相当折磨:( Rust 自动补全网上能找到的配置大多数都没有配置 auto import，导致网上随便找个配置用的时候自动补全只能补全已经导入的模块，相当的离谱（最后在 nvim-comp 中找到了配置方法（然而写这篇文章的时候已经不推荐用这个了在 lspconfig 中加入以下代码： 1234567891011">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-03T20:04:50.000Z">
+<meta property="article:modified_time" content="2022-07-16T01:17:59.566Z">
+<meta property="article:author" content="wtox">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>nvim 配置 - Hello World!</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wortoxs.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello World!</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="nvim 配置"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-03 20:04" pubdate>
+          2022年6月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">nvim 配置</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>VS Code 的 vim 插件仍然相当难用，打算改用 nvim 试试水（<br>然而还是相当折磨:(</p>
+<h1 id="Rust-自动补全"><a href="#Rust-自动补全" class="headerlink" title="Rust 自动补全"></a>Rust 自动补全</h1><p>网上能找到的配置大多数都没有配置 auto import，导致网上随便找个配置用的时候自动补全只能补全已经导入的模块，相当的离谱（<br>最后在 <code>nvim-comp</code> 中找到了配置方法（然而写这篇文章的时候已经不推荐用这个了<br>在 <code>lspconfig</code> 中加入以下代码：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs lua"><span class="hljs-comment">-- https://github.com/hrsh7th/nvim-compe</span><br><span class="hljs-keyword">local</span> capabilities = vim.lsp.protocol.make_client_capabilities()<br>capabilities.textDocument.completion.completionItem.snippetSupport = <span class="hljs-literal">true</span><br>capabilities.textDocument.completion.completionItem.resolveSupport = &#123;<br>  properties = &#123;<br>    <span class="hljs-string">&#x27;documentation&#x27;</span>,<br>    <span class="hljs-string">&#x27;detail&#x27;</span>,<br>    <span class="hljs-string">&#x27;additionalTextEdits&#x27;</span>,<br>  &#125;<br>&#125;<br><br><span class="hljs-built_in">require</span><span class="hljs-string">&#x27;lspconfig&#x27;</span>.rust_analyzer.setup &#123;<br>  capabilities = capabilities,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>LSP and performance implications</p>
+<p>The feature is enabled only if the LSP client supports LSP protocol version 3.16+ and reports the additionalTextEdits (case-sensitive) resolve client capability in its client capabilities. This way the server is able to defer the costly computations, doing them for a selected completion item only. For clients with no such support, all edits have to be calculated on the completion request, including the fuzzy search completion ones, which might be slow ergo the feature is automatically disabled.</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://rust-analyzer.github.io/manual.html#completion-with-autoimport">https://rust-analyzer.github.io/manual.html#completion-with-autoimport</a></p>
+</blockquote>
+<p>直接使用 <code>rust-tool.nvim</code> 一劳永逸</p>
+<h1 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h1><p>默认按键 <code>Ctrl-N</code> | <code>Ctrl-P</code> 可能会和标准的补全冲突，因此在配置 <code>nvim-cmp</code> 的时候注意映射（<br>比如在命令行补全的时候发生的冲突（</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs lua"><span class="hljs-keyword">local</span> cmp = <span class="hljs-built_in">require</span><span class="hljs-string">&#x27;cmp&#x27;</span><br>cmp.setup(&#123;<br>    snippet = &#123;<br>        <span class="hljs-comment">-- REQUIRED - you must specify a snippet engine</span><br>        expand = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(args)</span></span><br>        <span class="hljs-comment">-- luasnip</span><br>        <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;luasnip&#x27;</span>).lsp_expand(args.body)<br>        <span class="hljs-comment">-- vsnip</span><br>        <span class="hljs-comment">-- vim.fn[&quot;vsnip#anonymous&quot;](args.body)</span><br>        <span class="hljs-comment">-- snippy</span><br>        <span class="hljs-comment">-- require(&#x27;snippy&#x27;).expand_snippet(args.body)</span><br>        <span class="hljs-comment">-- ultisnip</span><br>        <span class="hljs-comment">-- vim.fn[&quot;UltiSnips#Anon&quot;](args.body)</span><br>        <span class="hljs-keyword">end</span>,<br>    &#125;,<br>    mapping = cmp.mapping.preset.<span class="hljs-built_in">insert</span>(&#123;<br>        [<span class="hljs-string">&#x27;&lt;C-b&gt;&#x27;</span>] = cmp.mapping(cmp.mapping.scroll_docs(<span class="hljs-number">-4</span>)),<br>        [<span class="hljs-string">&#x27;&lt;C-f&gt;&#x27;</span>] = cmp.mapping(cmp.mapping.scroll_docs(<span class="hljs-number">4</span>)),<br>        [<span class="hljs-string">&#x27;&lt;C-Space&gt;&#x27;</span>] = cmp.mapping(cmp.mapping.complete()),<br>        [<span class="hljs-string">&#x27;&lt;C-y&gt;&#x27;</span>] = cmp.<span class="hljs-built_in">config</span>.disable,<br>        [<span class="hljs-string">&#x27;&lt;C-e&gt;&#x27;</span>] = cmp.mapping(&#123;<br>            i = cmp.mapping.abort(),<br>            c = cmp.mapping.<span class="hljs-built_in">close</span>(),<br>        &#125;),<br>        <span class="hljs-comment">-- &lt;C-n&gt; &lt;C-p&gt; &lt;Tab&gt; 可能会使用标准的补全</span><br>        [<span class="hljs-string">&#x27;&lt;C-n&gt;&#x27;</span>] = cmp.mapping(cmp.mapping.select_next_item(), &#123;<span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>&#125;),<br>        [<span class="hljs-string">&#x27;&lt;C-p&gt;&#x27;</span>] = cmp.mapping(cmp.mapping.select_prev_item(), &#123;<span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>&#125;),<br>        <br>        <span class="hljs-comment">-- Accept currently selected item...</span><br>        <span class="hljs-comment">-- Set `select` to `false` to only confirm explicitly selected items:</span><br>        [<span class="hljs-string">&#x27;&lt;CR&gt;&#x27;</span>] = cmp.mapping.confirm(&#123;<br>            behavior = cmp.ConfirmBehavior.Replace,<br>            <span class="hljs-built_in">select</span> = <span class="hljs-literal">true</span>, <br>        &#125;),<br>    &#125;),<br>    sources = cmp.<span class="hljs-built_in">config</span>.sources(&#123;<br>        &#123; name = <span class="hljs-string">&#x27;nvim_lsp&#x27;</span> &#125;,<br>        <span class="hljs-comment">-- &#123; name = &#x27;luasnip&#x27; &#125;, -- For luasnip users.</span><br>        <span class="hljs-comment">-- &#123; name = &#x27;ultisnips&#x27; &#125;, -- For ultisnips users.</span><br>        <span class="hljs-comment">-- &#123; name = &#x27;snippy&#x27; &#125;, -- For snippy users.</span><br>    &#125;, &#123;&#123; name = <span class="hljs-string">&#x27;buffer&#x27;</span> &#125;&#125;)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h1 id="诊断信息没有配色"><a href="#诊断信息没有配色" class="headerlink" title="诊断信息没有配色"></a>诊断信息没有配色</h1><p>注意使用的主题</p>
+<h1 id="自动显示诊断信息"><a href="#自动显示诊断信息" class="headerlink" title="自动显示诊断信息"></a>自动显示诊断信息</h1><p>在 <a target="_blank" rel="noopener" href="https://sharksforarms.dev/posts/neovim-rust/">Neovim and Rust</a> 的这篇教程中，通过</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-comment">&quot; Set updatetime for CursorHold</span><br><span class="hljs-comment">&quot; 300ms of no cursor movement to trigger CursorHold</span><br><span class="hljs-keyword">set</span> updatetime=<span class="hljs-number">300</span><br><span class="hljs-comment">&quot; Show diagnostic popup on cursor hold</span><br><span class="hljs-keyword">autocmd</span> CursorHold * <span class="hljs-keyword">lua</span> <span class="hljs-keyword">vim</span>.diagnostic.open_float(nil, &#123; focusable = false &#125;)<br></code></pre></td></tr></table></figure>
+<p>来设置光标停留时自动显示 Warning、Error、Hint等信息。</p>
+<p>但是在实际使用中时，该方法会覆盖其他窗口的信息。例如，使用 <code>vim.lsp.buf.hover()</code> 或 <code>vim.lsp.buf.signature_help()</code> 来显示函数信息时，诊断信息会覆盖来自 lsp 显示的信息。</p>
+<p>目前没有找到解决方案，临时解决方法为通过快捷键调出信息，而不适用 <code>autocmd</code>。但在 <code>Insert Mode</code> 限制函数的签名。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-comment">&quot; Show diagnostic popup on cursor hold</span><br><span class="hljs-comment">&quot; autocmd CursorHold * lua vim.diagnostic.open_float(nil, &#123; focusable = false &#125;)</span><br><span class="hljs-keyword">autocmd</span> CursorHoldI * <span class="hljs-keyword">lua</span> <span class="hljs-keyword">vim</span>.lsp.buf.signature_help()<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考<br><a target="_blank" rel="noopener" href="https://www.reddit.com/r/neovim/comments/tvy18v/check_if_floating_window_exists/">Check if floating window exists?</a><br><a target="_blank" rel="noopener" href="https://www.reddit.com/r/neovim/comments/s3ykd2/diagnostic_on_hover_workaround_available/">Diagnostic on hover workaround available?</a><br><a target="_blank" rel="noopener" href="https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#customizing-how-diagnostics-are-displayed">Customizing how diagnostics are displayed</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>nvim 配置</div>
+      <div>http://wortoxs.github.io/2022/06/03/nvim-配置/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>wtox</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月3日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/04/%E5%A4%A7%E6%9D%82%E7%83%A9/" title="大杂烩">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">大杂烩</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/10/Quarkus-Gradle-Kotlin%E6%90%AD%E5%BB%BA/" title="Quarkus+Gradle+Kotlin搭建">
+                        <span class="hidden-mobile">Quarkus+Gradle+Kotlin搭建</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
